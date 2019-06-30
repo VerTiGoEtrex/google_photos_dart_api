@@ -17,56 +17,7 @@ the endpoints require authentication headers to function properly.
 
 You can use
 the `google_sign_in` package to get these headers, and extend the HTTP BaseClient to inject
-the auth headers on behalf of the API client:
-
-```Dart
-import 'package:http/http.dart';
-
-main() async {
-  final GoogleSignIn googleSignIn = GoogleSignIn(scopes: <String>[
-    'profile',
-    'https://www.googleapis.com/auth/photoslibrary',
-    'https://www.googleapis.com/auth/photoslibrary.sharing'
-  ]);
-  final user = await googleSignIn.signInSilently();
-  final client = AuthenticatedClient(
-    Client(),
-    () => user.authHeaders,
-    user.clearAuthCache,
-  );
-  return PhotoslibraryApi(client);
-}
-
-class AuthenticatedClient extends BaseClient {
-  final Client baseClient;
-  final Future<Map<String, String>> Function() getAuthHeaders;
-  final Future<void> Function() invalidHeadersCallback;
-
-  AuthenticatedClient(
-    this.baseClient,
-    this.getAuthHeaders,
-    this.invalidHeadersCallback,
-  );
-
-  Future<StreamedResponse> send(final BaseRequest request) async {
-    var authHeaders = await getAuthHeaders();
-    request.headers.addAll(authHeaders);
-    var response = await baseClient.send(request);
-    if (response.statusCode == 401) {
-      // Headers are expired, or perhaps user has been logged out.
-      // GoogleSignIn expects clients to inform it of invalid cached headers.
-      await invalidHeadersCallback();
-    }
-    return response;
-  }
-
-  @override
-  void close() {
-    super.close();
-    baseClient.close();
-  }
-}
-```
+the auth headers on behalf of the API client. See the `example` directory.
 
 In future, perhaps the Dart or Flutter teams will provide better integration of HTTP clients
 with the google_sign_in package.
