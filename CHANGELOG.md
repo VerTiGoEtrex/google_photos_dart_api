@@ -1,3 +1,5 @@
+## [1.0.2] - Moved example to fit analysis requirements, and updated homepage to point to github repo
+
 ## [1.0.1] - Small update to pubspec to improve score and organization.
 
 ## [1.0.0] - Google Photos v1 API
