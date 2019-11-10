@@ -1,3 +1,7 @@
+## [1.0.4] - Re-relased without deprecation
+
+## [1.0.3] - Errantly deprecated in favor of Google packge (not available)
+
 ## [1.0.2] - Moved example to fit analysis requirements, and updated homepage to point to github repo
 
 ## [1.0.1] - Small update to pubspec to improve score and organization.
